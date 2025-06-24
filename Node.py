@@ -1,16 +1,8 @@
 class Node:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-
-    def getX (self):
-        return self.x
+    def __init__(self, estado, custo, acao, pai):
+        self.estado = estado
+        self.custo = custo
+        self.acao = acao 
+        self.pai = pai
+        
     
-    def setX (self, x):
-        self.x = x
-
-    def getY (self):
-        return self.y
-    
-    def setX (self, y):
-        self.y = y
