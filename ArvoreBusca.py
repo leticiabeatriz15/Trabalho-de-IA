@@ -7,7 +7,7 @@ class ArvoreBusca:
         return self.noInicial
     
     def isNoObjetivo(self, estadoAtual):
-        return self.isNoObjetivo.estado == estadoAtual
+        return self.noObjetivo.estado == estadoAtual.estado
     
     
     

@@ -3,23 +3,17 @@ from Node import Node
 from queue import Queue
 from ArvoreBusca import ArvoreBusca
 
-# node = {
-#     "STATE": [x, y],
-#     "VALUE": v
-# }
-
-# Esses node serão peças de um nó
-# A estrutura será chamada de nó
-
-nodeEstadoInicial = Node([7,2,3,6,1,5,4,8,0], 0, None, None)
+nodeEstadoInicial = Node([1,2,3,4,0,5,6,7,8], 0, None, None)
 nodeEstadoObjetivo = Node([0, 1, 2, 3, 4, 5, 6, 7, 8], 0, None, None)
 
 
-listaNosExplorados = []
 
 arvore = ArvoreBusca(nodeEstadoInicial, nodeEstadoObjetivo)
 
 
+
+
+listaNosExplorados = []
 
 def sequenciaAcoes (estadoAtual):
     listaAcoes = []
@@ -31,51 +25,94 @@ def sequenciaAcoes (estadoAtual):
     return listaAcoes
     
 
-      
+# def verificaFilhosEmFila(filhosExpandidos, fila):
+    
+#     for i in range(len(filhosExpandidos)):
+#         if filhosExpandidos[i] in fila.queue:
+#             continue
+        
+#         fila.put(Node(filhosExpandidos[i], 0, None, None))
+
+
       
 def buscaEmLargura(problema):
     node = problema
+    
     fila_nos = Queue()
+    # controle_fila = []
     
-    fila_nos.push(node)
+    fila_nos.put(node)
     
-    while not fila_nos.isEmpty():
-        node = fila_nos.pop()
+    while not fila_nos.empty():
+        node = fila_nos.get()
         
         if node.estado in listaNosExplorados:
             continue
+        # if node.estado in listaNosExplorados:
+        #     continue
         
         listaNosExplorados.append(node.estado)
         
-        if arvore.isNoObjetivo(node.estado):
-            return sequenciaAcoes(node.estado)
+        if arvore.isNoObjetivo(node):
+            print("Estado objetivo encontrado!")
+            print("Ações:", sequenciaAcoes(node))
+            return sequenciaAcoes(node)
+        
+        expande(node, fila_nos)
+        
+        # print("Fila: ")
+        # for item in fila_nos.queue:
+        #     print(item.estado)
+        # print('Nós explorados', listaNosExplorados)
+        
+    
 
 
-def expande(problema):
-    indice = problema.estado.index(0)
-    tamanhoLista = len(problema)
+def expande(problema, fila_nos):
+    estado_atual = problema.estado
+    indice = estado_atual.index(0)
+    tamanhoLista = len(estado_atual)
     raiz = int(tamanhoLista ** 0.5)
     x = indice // raiz
     y = indice % raiz 
-    print(f"X: {x}, Y: {y}")
+    # print(f"X: {x}, Y: {y}")
+
+    filhos = []  # lista de novos estados gerados
 
     # movimento para cima
     if x > 0:
         novoIndice = (x - 1) * raiz + y
-        print("Movimento para cima")
+        novo_estado = estado_atual[:]
+        novo_estado[indice], novo_estado[novoIndice] = novo_estado[novoIndice], novo_estado[indice]
+        fila_nos.put(Node(novo_estado, 0, "para cima", problema))
+
     # movimento para baixo
     if x < raiz - 1:
         novoIndice = (x + 1) * raiz + y
-        print("Movimento para baixo")
+        novo_estado = estado_atual[:]
+        novo_estado[indice], novo_estado[novoIndice] = novo_estado[novoIndice], novo_estado[indice]
+        fila_nos.put(Node(novo_estado, 0, "para baixo", problema))
+
     # movimento para a esquerda
     if y > 0:
         novoIndice = x * raiz + (y - 1)
-        print("Movimento para a esquerda")
+        novo_estado = estado_atual[:]
+        novo_estado[indice], novo_estado[novoIndice] = novo_estado[novoIndice], novo_estado[indice]
+        fila_nos.put(Node(novo_estado, 0, "para a esquerda", problema))
+
     # movimento para a direita
     if y < raiz - 1:
         novoIndice = x * raiz + (y + 1)
-        print("Movimento para a direita")
- 
+        novo_estado = estado_atual[:]
+        novo_estado[indice], novo_estado[novoIndice] = novo_estado[novoIndice], novo_estado[indice]
+        fila_nos.put(Node(novo_estado, 0, "para direita", problema))
+
+    return filhos
+
+
+buscaEmLargura(nodeEstadoInicial)
+
+
     # indice == 0 (0,1...)
     #indice > 0 and indice < problema.len() - 1 (...,0,...)
     # indice == problema.len() - 1 (..., 0)        
@@ -104,55 +141,6 @@ def expande(problema):
 
             
 
-# coordenadasNode0 = leitura(estado_inicial)
-
-
-# print(coordenadasNode0[0], "<--- X\n", coordenadasNode0[1], "<--- Y")
-
-
-# def posicaoPossivel(coordenadasNode0, lista):
-#     x = coordenadasNode0[0]
-#     y = coordenadasNode0[1]
-#     if(coordenadasNode0[0] == len(lista) - 1):
-#         if(coordenadasNode0[1] == len(lista)-1):
-#             fila_nos.push(estado_inicial[x - 1] [y])
-#             fila_nos.push(estado_inicial[x][y - 1])
-            
-#         elif(coordenadasNode0[1] < len(lista)-1 and coordenadasNode0[1] > 0):
-#             fila_nos.push(estado_inicial[x - 1] [y])
-#             fila_nos.push(estado_inicial[x][y + 1])
-#             fila_nos.push(estado_inicial[x][y - 1])
-#         else:
-#             fila_nos.push(estado_inicial[x - 1] [y])
-#             fila_nos.push(estado_inicial[x][y + 1])
-
-#     elif(coordenadasNode0[0] < len(lista) - 1 and coordenadasNode0[0] > 0):
-#         if(coordenadasNode0[1] == len(lista)-1):
-#             fila_nos.push(estado_inicial[x + 1] [y])
-#             fila_nos.push(estado_inicial[x][y - 1])
-#             fila_nos.push(estado_inicial[x - 1] [y])
-#         elif(coordenadasNode0[1] < len(lista)-1 and coordenadasNode0[1] > 0):
-#             fila_nos.push(estado_inicial[x + 1] [y])
-#             fila_nos.push(estado_inicial[x][y + 1])
-#             fila_nos.push(estado_inicial[x][y - 1])
-#             fila_nos.push(estado_inicial[x - 1] [y])
-#         else:
-#             fila_nos.push(estado_inicial[x + 1] [y])
-#             fila_nos.push(estado_inicial[x][y + 1])
-#             fila_nos.push(estado_inicial[x - 1] [y])
-#     else:
-#         if(coordenadasNode0[1] == len(lista)-1):
-#             fila_nos.push(estado_inicial[x + 1] [y])
-#             fila_nos.push(estado_inicial[x][y - 1])
-#         elif(coordenadasNode0[1] < len(lista)-1 and coordenadasNode0[1] > 0):
-#             fila_nos.push(estado_inicial[x + 1] [y])
-#             fila_nos.push(estado_inicial[x  ][y + 1])
-#             fila_nos.push(estado_inicial[x][y - 1])
-#         else:
-#             fila_nos.push(estado_inicial[x + 1] [y])
-#             fila_nos.push(estado_inicial[x][y + 1])    
-
-
     # if(estado_inicial[x][y] is not None):
     #     lista_nos.append(Node(x, y))
     #     estado_inicial[x][y] = estado_inicial[x+1]
@@ -168,34 +156,34 @@ def expande(problema):
 
 
 
-def breadthFirstSearch(problem):
-    node = search_tree.getStartNode(problem) 
+# def breadthFirstSearch(problem):
+#     node = search_tree.getStartNode(problem) 
     
-    frontier = util.Queue()
+#     frontier = util.Queue()
     
     
-    frontier.push(node)
+#     frontier.push(node)
    
-    explored = set()
+#     explored = set()
     
-    while not frontier.isEmpty():
-        node = frontier.pop()
+#     while not frontier.isEmpty():
+#         node = frontier.pop()
         
-        if node['STATE'] in explored:
+#         if node['STATE'] in explored:
             
-            continue
+#             continue
         
-        explored.add(node['STATE'])
+#         explored.add(node['STATE'])
         
-        if problem.isGoalState(node['STATE']):
+#         if problem.isGoalState(node['STATE']):
             
-            return search_tree.getActionSequence(node)
+#             return search_tree.getActionSequence(node)
         
-        for sucessor in problem.expand(node['STATE']):
-            child_node = search_tree.getChildNode(sucessor, node)
-            frontier.push(child_node)
+#         for sucessor in problem.expand(node['STATE']):
+#             child_node = search_tree.getChildNode(sucessor, node)
+#             frontier.push(child_node)
             
-    return[]
+#     return[]
 
 
 
