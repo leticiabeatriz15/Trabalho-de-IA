@@ -3,7 +3,7 @@ from Node import Node
 from ArvoreBusca import ArvoreBusca
 
 # nodeEstadoInicial = Node([3,1,2,0,4,5,6,7,8], 0, None, None) #Busca 3*3
-nodeEstadoInicial = Node([3,1,2,0,4,5,6,7,8], 0, None, None) #Busca 3*3
+nodeEstadoInicial = Node([3,1,2,4,0,5,6,7,8], 0, None, None) #Busca 3*3
 nodeEstadoObjetivo = Node([0,1,2,3,4,5,6,7,8], 0, None, None)
 
 # nodeEstadoInicial = Node([4,1,2,3,0,5,6,7,8,9,10,11,12,13,14,15], 0, None, None) #Busca 4*4
@@ -32,7 +32,6 @@ def buscaEmProfundidade(problema):
     pilha_nos.append(node)
     
     while pilha_nos:
-        node = pilha_nos.pop()
         
         if node.estado in listaNosExplorados:
             continue
@@ -42,12 +41,13 @@ def buscaEmProfundidade(problema):
         if arvore.isNoObjetivo(node):
             print("Ações:", sequenciaAcoes(node))
             print("Estado objetivo encontrado!")
-            
             return sequenciaAcoes(node)
         
         expande(node, pilha_nos)
-        print("Nós explorados até agora:", len(listaNosExplorados))
-        print("Estado atual:", node.estado)
+        node = pilha_nos.pop()
+
+        
+        #Adicionar o custo na busca00<_------------------------------------------
 
 
 
