@@ -16,13 +16,32 @@ arvore = ArvoreBusca(nodeEstadoInicial, nodeEstadoObjetivo)
 listaNosExplorados = []
 
 def sequenciaAcoes (estadoAtual):
+    
     listaAcoes = []
     
     while estadoAtual.pai is not None:
         listaAcoes.append(estadoAtual.acao)
         estadoAtual = estadoAtual.pai
         
-    return listaAcoes
+    return listaAcoes[::-1] 
+
+def caminhoPercorrido(estadoAtual):
+    caminho = []
+    while estadoAtual.pai is not None:
+        caminho.append(estadoAtual.estado)
+        estadoAtual = estadoAtual.pai
+        
+        for elemento in caminho:
+            textoOrganizado = ""
+            for i in elemento:
+                if i == 0:
+                    textoOrganizado += "\033[32m"+ str(i) + "\033[0m"
+                else:
+                    textoOrganizado += str(i)
+            
+        print(textoOrganizado)
+        
+    return caminho[::-1] 
       
 def buscaEmLargura(problema):
     node = problema
@@ -42,12 +61,13 @@ def buscaEmLargura(problema):
             print("Ações:", sequenciaAcoes(node))
             print("Estado objetivo encontrado!")
             
+            print('Caminho percorrido:', len(caminhoPercorrido(node)))
+        
             return sequenciaAcoes(node)
+
         
         expande(node, fila_nos)
-        print("Nós explorados até agora:", len(listaNosExplorados))
-        print("Estado atual:", node.estado)
-
+    
 def expande(problema, fila_nos):
     estado_atual = problema.estado
     indice = estado_atual.index(0)
@@ -87,3 +107,5 @@ def expande(problema, fila_nos):
 
 
 buscaEmLargura(nodeEstadoInicial)
+# print("Nós explorados:", listaNosExplorados)
+print("Quantidade de nós explorados:", len(listaNosExplorados))

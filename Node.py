@@ -5,4 +5,3 @@ class Node:
         self.acao = acao 
         self.pai = pai
         
-    
