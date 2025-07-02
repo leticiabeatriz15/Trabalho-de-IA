@@ -1,68 +1,49 @@
+from ArvoreBusca import ArvoreBusca
+# from BuscaProfundidade import expande
+
 from Node import Node
 
-from ArvoreBusca import ArvoreBusca
-
 nodeEstadoInicial = Node([3,1,2,4,0,5,6,7,8], 0, None, None) #Busca 3*3
+
 nodeEstadoObjetivo = Node([0,1,2,3,4,5,6,7,8], 0, None, None)
 
-# nodeEstadoInicial = Node([4,1,2,3,0,5,6,7,8,9,10,11,12,13,14,15], 0, None, None) #Busca 4*4
-# nodeEstadoObjetivo = Node([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15], 0, None, None)
-
-# nodeEstadoInicial = Node([5,1,2,3,4,0,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24], 0, None, None) #Busca 5*5
-# nodeEstadoObjetivo = Node([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24], 0, None, None)
 
 arvore = ArvoreBusca(nodeEstadoInicial, nodeEstadoObjetivo)
 
-
-def sequenciaAcoes (estadoAtual):
-    listaAcoes = []
-    
-    while estadoAtual.pai is not None:
-        listaAcoes.append(estadoAtual.acao)
-        estadoAtual = estadoAtual.pai
-        
-    return listaAcoes[::-1]
-
-def caminhoPercorrido(estadoAtual):
-    caminho = []
-    while estadoAtual.pai is not None:
-        caminho.append(estadoAtual.estado)
-        estadoAtual = estadoAtual.pai
-
-    # for elemento in caminho[::-1]:
-    #     textoOrganizado = ""
-    #     for i in elemento:
-    #         if i == 0:
-    #             textoOrganizado += "\033[32m" + str(i) + "\033[0m"
-    #         else:
-    #             textoOrganizado += str(i)
-    #     print(textoOrganizado)
-
-    return caminho[::-1]
-      
-def buscaEmProfundidade(problema, limite):
+def buscaProfundidadeIterativa(problema, limite):
+    print("Iniciando busca em profundidade iterativa...")
     node = problema
     listaNosExplorados = set()
     pilha_nos = []
     pilha_nos.append(node)
     listaNosExplorados.add(tuple(node.estado))  
     
+    contador = 0
     while pilha_nos:
         node = pilha_nos.pop()
+        contador += 1
+
+        if contador == limite and arvore.isNoObjetivo(node) is False:
+            print("Limite de profundidade atingido. Expandindo nós...", limite, contador)
+            limite += 1
+            continue
         
-        if arvore.isNoObjetivo(node):
-            print("Ações:", sequenciaAcoes(node))
+        elif arvore.isNoObjetivo(node):
+            # print("Ações:", sequenciaAcoes(node))
             print("Estado objetivo encontrado!")
-            print('Caminho percorrido: ', caminhoPercorrido(node))
-        
+            # print('Caminho percorrido: ', caminhoPercorrido(node))
             return listaNosExplorados
         
         expande(node, pilha_nos, listaNosExplorados)
-        # print('Nó: ', node.estado)
+#         # print('Nó: ', node.estado)
 
     return listaNosExplorados
-    
-      
+    # while True:
+    #     resultado = buscaEmProfundidade(problema, limite)
+    #     if resultado != limite:
+    #         return resultado
+    #     limite += 1
+
 def expande(problema, pilha_nos, listaNosExplorados):
     estado_atual = problema.estado
     indice = estado_atual.index(0)
@@ -109,6 +90,6 @@ def expande(problema, pilha_nos, listaNosExplorados):
             pilha_nos.append(Node(novo_estado, 0, "para cima", problema))
             listaNosExplorados.add(tuple(novo_estado))
 
+buscaProfundidadeIterativa(nodeEstadoInicial, 2)
 
-listaNosExplorados = buscaEmProfundidade(nodeEstadoInicial, 0)
-print("Quantidade de nós explorados:", len(listaNosExplorados))
+
