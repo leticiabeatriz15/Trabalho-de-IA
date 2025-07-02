@@ -2,14 +2,14 @@ from Node import Node
 
 from ArvoreBusca import ArvoreBusca
 
-nodeEstadoInicial = Node([3,1,2,4,0,5,6,7,8], 0, None, None) #Busca 3*3
-nodeEstadoObjetivo = Node([0,1,2,3,4,5,6,7,8], 0, None, None)
+nodeEstadoInicial = Node([3,1,2,4,0,5,6,7,8], 0, None, None, None) #Busca 3*3
+nodeEstadoObjetivo = Node([0,1,2,3,4,5,6,7,8], 0, None, None, None)
 
-# nodeEstadoInicial = Node([4,1,2,3,0,5,6,7,8,9,10,11,12,13,14,15], 0, None, None) #Busca 4*4
-# nodeEstadoObjetivo = Node([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15], 0, None, None)
+# nodeEstadoInicial = Node([4,1,2,3,0,5,6,7,8,9,10,11,12,13,14,15], 0, None, None, None) #Busca 4*4
+# nodeEstadoObjetivo = Node([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15], 0, None, None, None)
 
-# nodeEstadoInicial = Node([5,1,2,3,4,0,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24], 0, None, None) #Busca 5*5
-# nodeEstadoObjetivo = Node([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24], 0, None, None)
+# nodeEstadoInicial = Node([5,1,2,3,4,0,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24], 0, None, None, None) #Busca 5*5
+# nodeEstadoObjetivo = Node([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24], 0, None, None, None)
 
 arvore = ArvoreBusca(nodeEstadoInicial, nodeEstadoObjetivo)
 
@@ -79,7 +79,7 @@ def expande(problema, pilha_nos, listaNosExplorados):
         novo_estado = estado_atual[:]
         novo_estado[indice], novo_estado[novoIndice] = novo_estado[novoIndice], novo_estado[indice]
         if tuple(novo_estado) not in listaNosExplorados:
-            pilha_nos.append(Node(novo_estado, 0, "para baixo", problema))
+            pilha_nos.append(Node(novo_estado, 0, "para baixo", problema, None))
             listaNosExplorados.add(tuple(novo_estado))
 
     if y > 0:
@@ -87,7 +87,7 @@ def expande(problema, pilha_nos, listaNosExplorados):
         novo_estado = estado_atual[:]
         novo_estado[indice], novo_estado[novoIndice] = novo_estado[novoIndice], novo_estado[indice]
         if tuple(novo_estado) not in listaNosExplorados:
-            pilha_nos.append(Node(novo_estado, 0, "para a esquerda", problema))
+            pilha_nos.append(Node(novo_estado, 0, "para a esquerda", problema, None))
             listaNosExplorados.add(tuple(novo_estado))
 
     
@@ -97,7 +97,7 @@ def expande(problema, pilha_nos, listaNosExplorados):
         novo_estado[indice], novo_estado[novoIndice] = novo_estado[novoIndice], novo_estado[indice]
         
         if tuple(novo_estado) not in listaNosExplorados:
-            pilha_nos.append(Node(novo_estado, 0, "para direita", problema))
+            pilha_nos.append(Node(novo_estado, 0, "para direita", problema, None))
             listaNosExplorados.add(tuple(novo_estado))
 
     if x > 0:
@@ -106,7 +106,7 @@ def expande(problema, pilha_nos, listaNosExplorados):
         novo_estado[indice], novo_estado[novoIndice] = novo_estado[novoIndice], novo_estado[indice]
         
         if tuple(novo_estado) not in listaNosExplorados:
-            pilha_nos.append(Node(novo_estado, 0, "para cima", problema))
+            pilha_nos.append(Node(novo_estado, 0, "para cima", problema, None))
             listaNosExplorados.add(tuple(novo_estado))
 
 
