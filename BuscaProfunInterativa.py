@@ -1,6 +1,7 @@
 from ArvoreBusca import ArvoreBusca
 # from BuscaProfundidade import expande
 
+import time
 from Node import Node
 
 nodeEstadoInicial = Node([3,1,2,4,0,5,6,7,8], 0, None, None, 0) #Busca 3*3
@@ -21,9 +22,12 @@ def sequenciaAcoes (estadoAtual):
 
 def caminhoPercorrido(estadoAtual):
     caminho = []
+    custo = 0
     while estadoAtual.pai is not None:
         caminho.append(estadoAtual.estado)
+        custo += 1
         estadoAtual = estadoAtual.pai
+      
 
     # for elemento in caminho[::-1]:
     #     textoOrganizado = ""
@@ -34,33 +38,42 @@ def caminhoPercorrido(estadoAtual):
     #             textoOrganizado += str(i)
     #     print(textoOrganizado)
 
+    print("Custo total: ", custo)
     return caminho[::-1]
 
 def buscaProfundidadeIterativa(problema, limite):
-    print("Iniciando busca em profundidade iterativa...")
-    node = problema
-    listaNosExplorados = set()
-    pilha_nos = []
-    pilha_nos.append(node)
-    listaNosExplorados.add(tuple(node.estado))  
     
-    while pilha_nos:
-        node = pilha_nos.pop()
-
-        if node.profundidade == limite and not arvore.isNoObjetivo(node):
-            # print(f"Nó explorado: {node.estado}")
-            print("Profundidade do nó",node.profundidade)
-            print(f"Limite de profundidade {limite} atingido.")
-            limite += 1
+    for profundidade in range(0, limite):
+        node = problema
+        listaNosExplorados = set()
+        pilha_nos = []
+        pilha_nos.append(node)
+        listaNosExplorados.add(tuple(node.estado))  
+    
+        while pilha_nos:
+            node = pilha_nos.pop()
             
-        if arvore.isNoObjetivo(node):
-            print("Ações:", sequenciaAcoes(node))
-            print("Estado objetivo encontrado!")
-            print('Caminho percorrido: ', caminhoPercorrido(node))
-            return listaNosExplorados
-        expande(node, pilha_nos, listaNosExplorados)
+            # if tuple(node.estado) in listaNosExplorados:
+            #     continue
 
-    return listaNosExplorados
+            if arvore.isNoObjetivo(node):
+                print("Ações:", sequenciaAcoes(node))
+                print("Estado objetivo encontrado!")
+                print('Caminho percorrido: ', caminhoPercorrido(node))
+                print('Nós explorados: ', len(listaNosExplorados))
+                return listaNosExplorados
+                
+                
+               
+                
+            
+            if node.profundidade < limite:
+                expande(node, pilha_nos, listaNosExplorados)    
+                
+               
+        
+    print('Solução não encontrada dentro do limite estabelecido!')          
+    return None
 
 def expande(problema, pilha_nos, listaNosExplorados):
     estado_atual = problema.estado
@@ -105,4 +118,10 @@ def expande(problema, pilha_nos, listaNosExplorados):
             pilha_nos.append(Node(novo_estado, 0, "para cima", problema, problema.profundidade + 1))
             listaNosExplorados.add(tuple(novo_estado))
 
+tempo_inicio = time.time()
 buscaProfundidadeIterativa(nodeEstadoInicial, 2)
+tempo_fim = time.time()
+duracao = tempo_fim - tempo_inicio
+
+
+print(f"Tempo de execução: {duracao:.4f} segundos")
