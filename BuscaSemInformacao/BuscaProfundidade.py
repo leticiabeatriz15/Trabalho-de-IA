@@ -2,6 +2,7 @@ from BuscaSemInformacao.Node import Node
 from ArvoreBusca import ArvoreBusca
 from Movimentacoes import sequenciaAcoes, caminhoPercorrido
 
+
 class BuscaProfundidade:
     def __init__(self, nodeEstadoInicial, nodeEstadoObjetivo):
         self.nodeEstadoInicial = nodeEstadoInicial
