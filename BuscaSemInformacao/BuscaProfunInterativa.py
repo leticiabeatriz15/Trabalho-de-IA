@@ -1,16 +1,15 @@
+from Node import Node
 from ArvoreBusca import ArvoreBusca
-# from BuscaProfundidade import expande
+from Movimentacoes import caminhoPercorrido, sequenciaAcoes
 
 import time
-from Node import Node
 
-nodeEstadoInicial = Node([3,1,2,4,0,5,6,7,8], 0, None, None, 0) #Busca 3*3
+nodeEstadoInicial = Node([3,1,2,4,0,5,6,7,8], 0, None, None, 0, 3) #Busca 3*3
 
-nodeEstadoObjetivo = Node([0,1,2,3,4,5,6,7,8], 0, None, None, 0)
+nodeEstadoObjetivo = Node([0,1,2,3,4,5,6,7,8], 0, None, None, 0, 0)
 
 
 arvore = ArvoreBusca(nodeEstadoInicial, nodeEstadoObjetivo)
-
 def sequenciaAcoes (estadoAtual):
     listaAcoes = []
     

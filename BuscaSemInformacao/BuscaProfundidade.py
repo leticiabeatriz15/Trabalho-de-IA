@@ -1,4 +1,4 @@
-from Node import Node
+from BuscaSemInformacao.Node import Node
 from ArvoreBusca import ArvoreBusca
 from Movimentacoes import sequenciaAcoes, caminhoPercorrido
 

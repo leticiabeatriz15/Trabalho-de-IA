@@ -1,4 +1,5 @@
-from Node import Node
+
+from BuscaSemInformacao.Node import Node
 from queue import Queue
 from ArvoreBusca import ArvoreBusca
 from Movimentacoes import sequenciaAcoes, caminhoPercorrido
@@ -43,7 +44,6 @@ class BuscaLargura:
         x = indice // raiz
         y = indice % raiz 
 
-        filhos = [] 
 
         if x > 0:
             novoIndice = (x - 1) * raiz + y
@@ -70,4 +70,4 @@ class BuscaLargura:
             novo_estado[indice], novo_estado[novoIndice] = novo_estado[novoIndice], novo_estado[indice]
             fila_nos.put(Node(novo_estado, 0, "para direita", problema, None))
 
-        return filhos
+    

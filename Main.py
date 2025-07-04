@@ -1,6 +1,6 @@
-from Node import Node 
-from BuscaLargura import BuscaLargura
-from BuscaProfundidade import BuscaProfundidade
+from BuscaSemInformacao.Node import Node 
+from BuscaSemInformacao.BuscaLargura import BuscaLargura
+from BuscaSemInformacao.BuscaProfundidade import BuscaProfundidade
 
 
 import time
