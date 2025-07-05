@@ -6,3 +6,5 @@ class Node:
         self.pai = pai
         self.heuristica = heuristica
         
+    def __lt__(self, outro_estado):
+        return (self.custo + self.heuristica) < (outro_estado.custo + outro_estado.heuristica)
