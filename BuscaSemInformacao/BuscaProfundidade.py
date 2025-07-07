@@ -13,12 +13,12 @@ class BuscaProfundidade:
     def buscaProfundidade(self):
         node = self.nodeEstadoInicial
         listaNosExplorados = set()
-        pilha_nos = []
-        pilha_nos.append(node)
+        pilhaNos = []
+        pilhaNos.append(node)
     
         
-        while pilha_nos:
-            node = pilha_nos.pop()
+        while pilhaNos:
+            node = pilhaNos.pop()
             
             
             if (tuple(node.estado) in listaNosExplorados):
@@ -38,16 +38,16 @@ class BuscaProfundidade:
                 return listaNosExplorados
             
                 
-            self.expande(node, pilha_nos)
+            self.expande(node, pilhaNos)
             
         print('Nenhuma solução encontrada!')
         return listaNosExplorados
 
-    def expande(self, problema, pilha_nos):
+    def expande(self, problema, pilhaNos):
         self.nosExpandidos += 1
-        estado_atual = problema.estado
-        indice = estado_atual.index(0)
-        tamanhoLista = len(estado_atual)
+        estadoAtual = problema.estado
+        indice = estadoAtual.index(0)
+        tamanhoLista = len(estadoAtual)
         raiz = int(tamanhoLista ** 0.5)
         x = indice // raiz
         y = indice % raiz 
@@ -57,29 +57,29 @@ class BuscaProfundidade:
 
         if x < raiz - 1:
             novoIndice = (x + 1) * raiz + y
-            novo_estado = estado_atual[:]
-            novo_estado[indice], novo_estado[novoIndice] = novo_estado[novoIndice], novo_estado[indice]
-            pilha_nos.append(Node(novo_estado, 0, "para baixo", problema, None))
+            novoEstado = estadoAtual[:]
+            novoEstado[indice], novoEstado[novoIndice] = novoEstado[novoIndice], novoEstado[indice]
+            pilhaNos.append(Node(novoEstado, 0, "para baixo", problema, None))
                 
 
         if y > 0:
             novoIndice = x * raiz + (y - 1)
-            novo_estado = estado_atual[:]
-            novo_estado[indice], novo_estado[novoIndice] = novo_estado[novoIndice], novo_estado[indice]
-            pilha_nos.append(Node(novo_estado, 0, "para a esquerda", problema, None))
+            novoEstado = estadoAtual[:]
+            novoEstado[indice], novoEstado[novoIndice] = novoEstado[novoIndice], novoEstado[indice]
+            pilhaNos.append(Node(novoEstado, 0, "para a esquerda", problema, None))
                 
 
         
         if y < raiz - 1:
             novoIndice = x * raiz + (y + 1)
-            novo_estado = estado_atual[:]
-            novo_estado[indice], novo_estado[novoIndice] = novo_estado[novoIndice], novo_estado[indice]
-            pilha_nos.append(Node(novo_estado, 0, "para direita", problema, None))
+            novoEstado = estadoAtual[:]
+            novoEstado[indice], novoEstado[novoIndice] = novoEstado[novoIndice], novoEstado[indice]
+            pilhaNos.append(Node(novoEstado, 0, "para direita", problema, None))
                 
 
         if x > 0:
             novoIndice = (x - 1) * raiz + y
-            novo_estado = estado_atual[:]
-            novo_estado[indice], novo_estado[novoIndice] = novo_estado[novoIndice], novo_estado[indice]
-            pilha_nos.append(Node(novo_estado, 0, "para cima", problema, None))
+            novoEstado = estadoAtual[:]
+            novoEstado[indice], novoEstado[novoIndice] = novoEstado[novoIndice], novoEstado[indice]
+            pilhaNos.append(Node(novoEstado, 0, "para cima", problema, None))
     

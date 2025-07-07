@@ -15,11 +15,11 @@ class BuscaLargura:
         node = self.nodeEstadoInicial
         listaNosExplorados = []
         
-        fila_nos = Queue()
-        fila_nos.put(node)
+        filaNos = Queue()
+        filaNos.put(node)
         
-        while not fila_nos.empty():
-            node = fila_nos.get()
+        while not filaNos.empty():
+            node = filaNos.get()
 
             if node.estado in listaNosExplorados:
                 continue
@@ -38,13 +38,13 @@ class BuscaLargura:
                 return sequenciaAcoes(node)
 
             
-            self.expande(node, fila_nos)
+            self.expande(node, filaNos)
             
-    def expande(self, problema, fila_nos):
+    def expande(self, problema, filaNos):
         self.nosExpandidos += 1
-        estado_atual = problema.estado
-        indice = estado_atual.index(0)
-        tamanhoLista = len(estado_atual)
+        estadoAtual = problema.estado
+        indice = estadoAtual.index(0)
+        tamanhoLista = len(estadoAtual)
         raiz = int(tamanhoLista ** 0.5)
         x = indice // raiz
         y = indice % raiz 
@@ -52,30 +52,25 @@ class BuscaLargura:
 
         if x > 0:
             novoIndice = (x - 1) * raiz + y
-            novo_estado = estado_atual[:]
-            novo_estado[indice], novo_estado[novoIndice] = novo_estado[novoIndice], novo_estado[indice]
-            fila_nos.put(Node(novo_estado, 0, "para cima", problema, None))
+            novoEstado = estadoAtual[:]
+            novoEstado[indice], novoEstado[novoIndice] = novoEstado[novoIndice], novoEstado[indice]
+            filaNos.put(Node(novoEstado, 0, "para cima", problema, None))
 
         if x < raiz - 1:
             novoIndice = (x + 1) * raiz + y
-            novo_estado = estado_atual[:]
-            novo_estado[indice], novo_estado[novoIndice] = novo_estado[novoIndice], novo_estado[indice]
-            fila_nos.put(Node(novo_estado, 0, "para baixo", problema, None))
+            novoEstado = estadoAtual[:]
+            novoEstado[indice], novoEstado[novoIndice] = novoEstado[novoIndice], novoEstado[indice]
+            filaNos.put(Node(novoEstado, 0, "para baixo", problema, None))
 
         if y > 0:
             novoIndice = x * raiz + (y - 1)
-            novo_estado = estado_atual[:]
-            novo_estado[indice], novo_estado[novoIndice] = novo_estado[novoIndice], novo_estado[indice]
-            fila_nos.put(Node(novo_estado, 0, "para a esquerda", problema, None))
+            novoEstado = estadoAtual[:]
+            novoEstado[indice], novoEstado[novoIndice] = novoEstado[novoIndice], novoEstado[indice]
+            filaNos.put(Node(novoEstado, 0, "para a esquerda", problema, None))
 
         
         if y < raiz - 1:
             novoIndice = x * raiz + (y + 1)
-            novo_estado = estado_atual[:]
-            novo_estado[indice], novo_estado[novoIndice] = novo_estado[novoIndice], novo_estado[indice]
-            fila_nos.put(Node(novo_estado, 0, "para direita", problema, None))
-            
-       
-
-
-
+            novoEstado = estadoAtual[:]
+            novoEstado[indice], novoEstado[novoIndice] = novoEstado[novoIndice], novoEstado[indice]
+            filaNos.put(Node(novoEstado, 0, "para direita", problema, None))
