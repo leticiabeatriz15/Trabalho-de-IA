@@ -3,9 +3,9 @@ from Movimentacoes import sequenciaAcoes, caminhoPercorrido
 from ArvoreBusca import ArvoreBusca
 import time 
 
-nodeEstadoInicial = NodeI([1, 2, 3, 4, 0, 5, 6, 7, 8],0, None, None, 3) #Busca 3*3
+nodeEstadoInicial = NodeI([1,2,3,4,0,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24],0, None, None, 3) #Busca 3*3
 
-nodeEstadoObjetivo = NodeI([0,1,2,3,4,5,6,7,8], 0, None, None, 0)
+nodeEstadoObjetivo = NodeI([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24], 0, None, None, 0)
 
 arvore = ArvoreBusca(nodeEstadoInicial, nodeEstadoObjetivo)
 
@@ -43,6 +43,8 @@ def buscaGulosa(estadoInicial, estadoObjetivo):
        
 
         for filho in filhos:
+            if (tuple(filho.estado) in listaNosExplorados):
+                continue
             valor = heuristica_pecas(filho.estado, estadoObjetivo.estado)
             if valor < melhor_valor:
                 melhor = filho

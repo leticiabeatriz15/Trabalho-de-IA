@@ -14,23 +14,30 @@ class BuscaProfundidade:
         listaNosExplorados = set()
         pilha_nos = []
         pilha_nos.append(node)
-        listaNosExplorados.add(tuple(node.estado))  
+    
         
         while pilha_nos:
             node = pilha_nos.pop()
             
+            
+            if (tuple(node.estado) in listaNosExplorados):
+                continue
+            
+            listaNosExplorados.add(tuple(node.estado))
+            
             if self.arvore.isNoObjetivo(node):
                 print("Ações:", sequenciaAcoes(node))
                 print("\033[35mEstado objetivo encontrado!\033[0m")
-                # print('Caminho percorrido: ', caminhoPercorrido(node))
+                print('Caminho percorrido: ', caminhoPercorrido(node))
                 print('Total de passos: ', len(caminhoPercorrido(node)))
                 print('Nós explorados: ', len(listaNosExplorados))
             
                 return listaNosExplorados
             
+                
             self.expande(node, pilha_nos, listaNosExplorados)
-            # print('Nó: ', node.estado)
-
+            
+        print('Nenhuma solução encontrada!')
         return listaNosExplorados
 
     def expande(self, problema, pilha_nos, listaNosExplorados):
@@ -48,33 +55,27 @@ class BuscaProfundidade:
             novoIndice = (x + 1) * raiz + y
             novo_estado = estado_atual[:]
             novo_estado[indice], novo_estado[novoIndice] = novo_estado[novoIndice], novo_estado[indice]
-            if tuple(novo_estado) not in listaNosExplorados:
-                pilha_nos.append(Node(novo_estado, 0, "para baixo", problema, None))
-                listaNosExplorados.add(tuple(novo_estado))
+            pilha_nos.append(Node(novo_estado, 0, "para baixo", problema, None))
+                
 
         if y > 0:
             novoIndice = x * raiz + (y - 1)
             novo_estado = estado_atual[:]
             novo_estado[indice], novo_estado[novoIndice] = novo_estado[novoIndice], novo_estado[indice]
-            if tuple(novo_estado) not in listaNosExplorados:
-                pilha_nos.append(Node(novo_estado, 0, "para a esquerda", problema, None))
-                listaNosExplorados.add(tuple(novo_estado))
+            pilha_nos.append(Node(novo_estado, 0, "para a esquerda", problema, None))
+                
 
         
         if y < raiz - 1:
             novoIndice = x * raiz + (y + 1)
             novo_estado = estado_atual[:]
             novo_estado[indice], novo_estado[novoIndice] = novo_estado[novoIndice], novo_estado[indice]
-            
-            if tuple(novo_estado) not in listaNosExplorados:
-                pilha_nos.append(Node(novo_estado, 0, "para direita", problema, None))
-                listaNosExplorados.add(tuple(novo_estado))
+            pilha_nos.append(Node(novo_estado, 0, "para direita", problema, None))
+                
 
         if x > 0:
             novoIndice = (x - 1) * raiz + y
             novo_estado = estado_atual[:]
             novo_estado[indice], novo_estado[novoIndice] = novo_estado[novoIndice], novo_estado[indice]
-            
-            if tuple(novo_estado) not in listaNosExplorados:
-                pilha_nos.append(Node(novo_estado, 0, "para cima", problema, None))
-                listaNosExplorados.add(tuple(novo_estado))
+            pilha_nos.append(Node(novo_estado, 0, "para cima", problema, None))
+    

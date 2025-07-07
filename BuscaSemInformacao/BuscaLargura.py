@@ -71,4 +71,5 @@ class BuscaLargura:
             novo_estado[indice], novo_estado[novoIndice] = novo_estado[novoIndice], novo_estado[indice]
             fila_nos.put(Node(novo_estado, 0, "para direita", problema, None))
 
-    
+
+

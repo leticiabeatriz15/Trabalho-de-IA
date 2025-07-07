@@ -6,15 +6,15 @@ import time
 
 
 
-nodeEstadoInicial = NodeI([1, 2, 3, 4, 0, 5, 6, 7, 8], 0, None, None, None) #Busca 3*3
-nodeEstadoObjetivo = NodeI([0,1,2,3,4,5,6,7,8], 0, None, None, None)
+# nodeEstadoInicial = NodeI([1, 2, 3, 4, 0, 5, 6, 7, 8], 0, None, None, None) #Busca 3*3
+# nodeEstadoObjetivo = NodeI([0,1,2,3,4,5,6,7,8], 0, None, None, None)
 
 
-# nodeEstadoInicial = Node([0, 2, 3, 4, 1, 6, 7, 8, 5, 10, 11, 12, 9, 13, 14, 15], 0, None, None, None) #Busca 4*4
-# nodeEstadoObjetivo = Node([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15], 0, None, None, None)
+# nodeEstadoInicial = NodeI([1, 2, 0, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], 0, None, None, None) #Busca 4*4
+# nodeEstadoObjetivo = NodeI([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15], 0, None, None, None)
 
-# nodeEstadoInicial = Node([1,2,3,4,5,0,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24], 0, None, None, None)
-# nodeEstadoObjetivo = Node([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24], 0, None, None, None)
+nodeEstadoInicial = NodeI([1,2,3,4,0,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24], 0, None, None, None)
+nodeEstadoObjetivo = NodeI([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24], 0, None, None, None)
 
 arvore = ArvoreBusca(nodeEstadoInicial, nodeEstadoObjetivo)
 
