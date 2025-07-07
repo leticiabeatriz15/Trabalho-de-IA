@@ -9,6 +9,7 @@ class BuscaLargura:
         self.nodeEstadoInicial = nodeEstadoInicial
         self.nodeEstadoObjetivo = nodeEstadoObjetivo
         self.arvore = ArvoreBusca(nodeEstadoInicial, nodeEstadoObjetivo)
+        self.nosExpandidos = 0
         
     def buscaLargura(self):
         node = self.nodeEstadoInicial
@@ -30,7 +31,9 @@ class BuscaLargura:
                 print("\033[35mEstado objetivo encontrado!\033[0m")
                 print('Caminho percorrido:', caminhoPercorrido(node))
                 print('Total de passos: ', len(caminhoPercorrido(node)))
-                print('Nós explorados: ', len(listaNosExplorados))
+                print('Nós expandidos: ', len(listaNosExplorados))
+                print('Estados expandidos: ', self.nosExpandidos)
+                print('Profundidade da solução: ', len(caminhoPercorrido(node)) - 1)
             
                 return sequenciaAcoes(node)
 
@@ -38,6 +41,7 @@ class BuscaLargura:
             self.expande(node, fila_nos)
             
     def expande(self, problema, fila_nos):
+        self.nosExpandidos += 1
         estado_atual = problema.estado
         indice = estado_atual.index(0)
         tamanhoLista = len(estado_atual)
@@ -70,6 +74,8 @@ class BuscaLargura:
             novo_estado = estado_atual[:]
             novo_estado[indice], novo_estado[novoIndice] = novo_estado[novoIndice], novo_estado[indice]
             fila_nos.put(Node(novo_estado, 0, "para direita", problema, None))
+            
+       
 
 
 

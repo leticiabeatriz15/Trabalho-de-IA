@@ -8,6 +8,7 @@ class BuscaProfundidadeIterativa:
         self.nodeEstadoObjetivo = nodeEstadoObjetivo
         self.arvore = ArvoreBusca(nodeEstadoInicial, nodeEstadoObjetivo)
         self.limite = limite
+        self.nosExpandidos = 0
 
     def buscaProfundidadeIterativa(self):
         for profundidade in range(0, self.limite):
@@ -23,8 +24,11 @@ class BuscaProfundidadeIterativa:
                 if self.arvore.isNoObjetivo(node):
                     print("Ações:", sequenciaAcoes(node))
                     print("Estado objetivo encontrado!")
-                    print('Caminho percorrido: ', len(caminhoPercorrido(node)))
-                    print('Nós explorados: ', len(listaNosExplorados))
+                    # print('Caminho percorrido: ', (caminhoPercorrido(node)))
+                    print('Total de passos: ', len(caminhoPercorrido(node)))
+                    print('Nós expandidos: ', len(listaNosExplorados))
+                    print('Estados expandidos: ', self.nosExpandidos)
+                    print('Profundidade da solução: ', len(caminhoPercorrido(node)) - 1)
                     return listaNosExplorados
                             
                 if node.profundidade < self.limite:
@@ -36,6 +40,7 @@ class BuscaProfundidadeIterativa:
         return None
 
     def expande(self, problema, pilha_nos, listaNosExplorados):
+        self.nosExpandidos += 1
         estado_atual = problema.estado
         indice = estado_atual.index(0)
         tamanhoLista = len(estado_atual)

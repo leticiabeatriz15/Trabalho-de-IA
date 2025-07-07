@@ -3,12 +3,17 @@ from Movimentacoes import sequenciaAcoes, caminhoPercorrido
 from ArvoreBusca import ArvoreBusca
 import time 
 
-nodeEstadoInicial = NodeI([1,2,3,4,0,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24],0, None, None, 3) #Busca 3*3
+# nodeEstadoInicial = NodeI([1,2,3,4,0,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24],0, None, None, 3) #Busca 3*3
 
-nodeEstadoObjetivo = NodeI([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24], 0, None, None, 0)
+# nodeEstadoObjetivo = NodeI([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24], 0, None, None, 0)
+
+nodeEstadoInicial = NodeI([1, 2, 0, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], 0, None, None, None) #Busca 4*4
+nodeEstadoObjetivo = NodeI([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15], 0, None, None, None)
+
 
 arvore = ArvoreBusca(nodeEstadoInicial, nodeEstadoObjetivo)
 
+# nosExpandidos = 0
 def heuristica_pecas(estado_atual, objetivo):
     pecas_fora_do_lugar = 0
     for i in range(len(estado_atual)):
@@ -29,7 +34,9 @@ def buscaGulosa(estadoInicial, estadoObjetivo):
             print('Ações: ', sequenciaAcoes(estado_atual))
             print('Caminho percorrido: ', caminhoPercorrido(estado_atual))
             print('Total de passos: ',len(caminhoPercorrido(estado_atual)))
-            print('Nós explorados: ', len(listaNosExplorados))
+            print('Nós expandidos: ', len(listaNosExplorados))
+            # print('Estados expandidos: ', nosExpandidos)
+            print('Profundidade da solução: ', len(caminhoPercorrido(estado_atual)) - 1)
             return 
         
         listaNosExplorados.add(tuple(estado_atual.estado))
@@ -58,6 +65,7 @@ def buscaGulosa(estadoInicial, estadoObjetivo):
         estado_atual = melhor
         
 def expande(problema):
+        # nosExpandidos += 1
         estado_atual = problema.estado
         indice = estado_atual.index(0)
         tamanhoLista = len(estado_atual)

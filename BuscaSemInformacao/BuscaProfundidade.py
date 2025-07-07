@@ -8,6 +8,7 @@ class BuscaProfundidade:
         self.nodeEstadoInicial = nodeEstadoInicial
         self.nodeEstadoObjetivo = nodeEstadoObjetivo
         self.arvore = ArvoreBusca(nodeEstadoInicial, nodeEstadoObjetivo)
+        self.nosExpandidos = 0
 
     def buscaProfundidade(self):
         node = self.nodeEstadoInicial
@@ -26,21 +27,24 @@ class BuscaProfundidade:
             listaNosExplorados.add(tuple(node.estado))
             
             if self.arvore.isNoObjetivo(node):
-                print("Ações:", sequenciaAcoes(node))
+                # print("Ações:", sequenciaAcoes(node))
                 print("\033[35mEstado objetivo encontrado!\033[0m")
-                print('Caminho percorrido: ', caminhoPercorrido(node))
+                # print('Caminho percorrido: ', caminhoPercorrido(node))
                 print('Total de passos: ', len(caminhoPercorrido(node)))
-                print('Nós explorados: ', len(listaNosExplorados))
+                print('Nós expandidos: ', len(listaNosExplorados))
+                print('Estados expandidos: ', self.nosExpandidos)
+                print('Profundidade da solução: ', len(caminhoPercorrido(node)) - 1)
             
                 return listaNosExplorados
             
                 
-            self.expande(node, pilha_nos, listaNosExplorados)
+            self.expande(node, pilha_nos)
             
         print('Nenhuma solução encontrada!')
         return listaNosExplorados
 
-    def expande(self, problema, pilha_nos, listaNosExplorados):
+    def expande(self, problema, pilha_nos):
+        self.nosExpandidos += 1
         estado_atual = problema.estado
         indice = estado_atual.index(0)
         tamanhoLista = len(estado_atual)
