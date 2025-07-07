@@ -1,4 +1,4 @@
-from Node import Node
+from BuscaSemInformacao.Node import Node
 from ArvoreBusca import ArvoreBusca
 from Movimentacoes import caminhoPercorrido, sequenciaAcoes
 
@@ -23,7 +23,7 @@ class BuscaProfundidadeIterativa:
                 if self.arvore.isNoObjetivo(node):
                     print("Ações:", sequenciaAcoes(node))
                     print("Estado objetivo encontrado!")
-                    print('Caminho percorrido: ', caminhoPercorrido(node))
+                    print('Caminho percorrido: ', len(caminhoPercorrido(node)))
                     print('Nós explorados: ', len(listaNosExplorados))
                     return listaNosExplorados
                             
@@ -32,7 +32,7 @@ class BuscaProfundidadeIterativa:
                     
                     
                 
-            print('Solução não encontrada dentro do limite estabelecido!')          
+        print('Solução não encontrada dentro do limite estabelecido!')          
         return None
 
     def expande(self, problema, pilha_nos, listaNosExplorados):

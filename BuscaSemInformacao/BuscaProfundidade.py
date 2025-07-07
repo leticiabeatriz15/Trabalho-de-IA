@@ -22,8 +22,9 @@ class BuscaProfundidade:
             if self.arvore.isNoObjetivo(node):
                 print("Ações:", sequenciaAcoes(node))
                 print("\033[35mEstado objetivo encontrado!\033[0m")
-                print('Caminho percorrido: ', caminhoPercorrido(node))
+                # print('Caminho percorrido: ', caminhoPercorrido(node))
                 print('Total de passos: ', len(caminhoPercorrido(node)))
+                print('Nós explorados: ', len(listaNosExplorados))
             
                 return listaNosExplorados
             

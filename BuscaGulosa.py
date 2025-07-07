@@ -1,12 +1,11 @@
-from Node import Node
+from NodeComInformacao import NodeI
 from Movimentacoes import sequenciaAcoes, caminhoPercorrido
 from ArvoreBusca import ArvoreBusca
 import time 
 
-nodeEstadoInicial = Node([1,2,5,3,4,8,6,0,7]
-, 0, None, None, 3) #Busca 3*3
+nodeEstadoInicial = NodeI([1, 2, 3, 4, 0, 5, 6, 7, 8],0, None, None, 3) #Busca 3*3
 
-nodeEstadoObjetivo = Node([0,1,2,3,4,5,6,7,8], 0, None, None, 0)
+nodeEstadoObjetivo = NodeI([0,1,2,3,4,5,6,7,8], 0, None, None, 0)
 
 arvore = ArvoreBusca(nodeEstadoInicial, nodeEstadoObjetivo)
 
@@ -30,12 +29,13 @@ def buscaGulosa(estadoInicial, estadoObjetivo):
             print('Ações: ', sequenciaAcoes(estado_atual))
             print('Caminho percorrido: ', caminhoPercorrido(estado_atual))
             print('Total de passos: ',len(caminhoPercorrido(estado_atual)))
+            print('Nós explorados: ', len(listaNosExplorados))
             return 
         
         listaNosExplorados.add(tuple(estado_atual.estado))
         filhos = expande(estado_atual)
         
-        print('Nós explorados: ', len(listaNosExplorados))
+        
      
         melhor = None
         melhor_valor = float('inf')
@@ -70,28 +70,28 @@ def expande(problema):
             novo_estado = estado_atual[:]
             novo_estado[indice], novo_estado[novoIndice] = novo_estado[novoIndice], novo_estado[indice]
             heuristicaNo = heuristica_pecas(novo_estado, nodeEstadoObjetivo.estado)
-            filhos.append(Node(novo_estado, 0, "para cima", problema, heuristicaNo))
+            filhos.append(NodeI(novo_estado, 0, "para cima", problema, heuristicaNo))
 
         if x < raiz - 1:
             novoIndice = (x + 1) * raiz + y
             novo_estado = estado_atual[:]
             novo_estado[indice], novo_estado[novoIndice] = novo_estado[novoIndice], novo_estado[indice]
             heuristicaNo = heuristica_pecas(novo_estado, nodeEstadoObjetivo.estado)
-            filhos.append(Node(novo_estado, 0, "para baixo", problema, heuristicaNo))
+            filhos.append(NodeI(novo_estado, 0, "para baixo", problema, heuristicaNo))
 
         if y > 0:
             novoIndice = x * raiz + (y - 1)
             novo_estado = estado_atual[:]
             novo_estado[indice], novo_estado[novoIndice] = novo_estado[novoIndice], novo_estado[indice]
             heuristicaNo = heuristica_pecas(novo_estado, nodeEstadoObjetivo.estado)
-            filhos.append(Node(novo_estado, 0, "para esquerda ", problema, heuristicaNo))
+            filhos.append(NodeI(novo_estado, 0, "para esquerda ", problema, heuristicaNo))
         
         if y < raiz - 1:
             novoIndice = x * raiz + (y + 1)
             novo_estado = estado_atual[:]
             novo_estado[indice], novo_estado[novoIndice] = novo_estado[novoIndice], novo_estado[indice]
             heuristicaNo = heuristica_pecas(novo_estado, nodeEstadoObjetivo.estado)
-            filhos.append(Node(novo_estado, 0, "para direita", problema, heuristicaNo))
+            filhos.append(NodeI(novo_estado, 0, "para direita", problema, heuristicaNo))
 
         return filhos
             

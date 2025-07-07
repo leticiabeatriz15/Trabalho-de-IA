@@ -1,19 +1,24 @@
 import heapq
-from Node import Node
+from NodeComInformacao import NodeI
 from ArvoreBusca import ArvoreBusca
 from Movimentacoes import sequenciaAcoes, caminhoPercorrido
 import time
 
 
 
-# nodeEstadoInicial = Node([8,7,6,5,4,3,2,1,0], 0, None, None, None) #Busca 3*3
-# nodeEstadoObjetivo = Node([0,1,2,3,4,5,6,7,8], 0, None, None, None)
+nodeEstadoInicial = NodeI([1, 2, 3, 4, 0, 5, 6, 7, 8], 0, None, None, None) #Busca 3*3
+nodeEstadoObjetivo = NodeI([0,1,2,3,4,5,6,7,8], 0, None, None, None)
 
 
-nodeEstadoInicial = Node([3,1,2,0,4,5,6,7,8,9,10,11,12,13,14,15], 0, None, None, None) #Busca 4*4
-nodeEstadoObjetivo = Node([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15], 0, None, None, None)
+# nodeEstadoInicial = Node([0, 2, 3, 4, 1, 6, 7, 8, 5, 10, 11, 12, 9, 13, 14, 15], 0, None, None, None) #Busca 4*4
+# nodeEstadoObjetivo = Node([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15], 0, None, None, None)
+
+# nodeEstadoInicial = Node([1,2,3,4,5,0,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24], 0, None, None, None)
+# nodeEstadoObjetivo = Node([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24], 0, None, None, None)
 
 arvore = ArvoreBusca(nodeEstadoInicial, nodeEstadoObjetivo)
+
+limite_profundidade = 30
 
 def heuristica (estado_atual, objetivo):
     
@@ -29,6 +34,7 @@ def heuristica (estado_atual, objetivo):
 def buscaEstrela(estadoInicial, estadoObjetivo):
     fronteira = []
     listaNosExplorados = set()
+    limite_atingido = False
     
     heuristica_inicial = heuristica(estadoInicial.estado, estadoObjetivo.estado)
     heapq.heappush(fronteira, (estadoInicial.custo + heuristica_inicial, estadoInicial))
@@ -47,17 +53,24 @@ def buscaEstrela(estadoInicial, estadoObjetivo):
             print('Ações: ', sequenciaAcoes(estado_atual))
             print('Caminho percorrido: ', caminhoPercorrido(estado_atual))
             print('Total de passos: ', len(caminhoPercorrido(estado_atual)))
+            print('Nós explorados', len(listaNosExplorados))
             return 
         
         listaNosExplorados.add(tuple(estado_atual.estado))
+        
         filhos = expande(estado_atual)
         
         for filho in filhos:
             if (tuple(filho.estado)) not in listaNosExplorados:
-                fx = filho.custo + filho.heuristica
-                heapq.heappush(fronteira, (fx, filho))
-                
-     
+                if filho.custo <= limite_profundidade:
+                    fx = filho.custo + filho.heuristica
+                    heapq.heappush(fronteira, (fx, filho))
+                else:
+                    limite_atingido = True
+                    
+    if limite_atingido:
+         print('Limite de profundidade atingido!')
+         
 def expande(problema):
         estado_atual = problema.estado
         indice = estado_atual.index(0)
@@ -73,28 +86,28 @@ def expande(problema):
             novo_estado = estado_atual[:]
             novo_estado[indice], novo_estado[novoIndice] = novo_estado[novoIndice], novo_estado[indice]
             heuristicaNo = heuristica(novo_estado, nodeEstadoObjetivo.estado)
-            filhos.append(Node(novo_estado, problema.custo + 1, "para cima", problema, heuristicaNo))
+            filhos.append(NodeI(novo_estado, problema.custo + 1, "para cima", problema, heuristicaNo))
 
         if x < raiz - 1:
             novoIndice = (x + 1) * raiz + y
             novo_estado = estado_atual[:]
             novo_estado[indice], novo_estado[novoIndice] = novo_estado[novoIndice], novo_estado[indice]
             heuristicaNo = heuristica(novo_estado, nodeEstadoObjetivo.estado)
-            filhos.append(Node(novo_estado, problema.custo + 1, "para baixo", problema, heuristicaNo))
+            filhos.append(NodeI(novo_estado, problema.custo + 1, "para baixo", problema, heuristicaNo))
 
         if y > 0:
             novoIndice = x * raiz + (y - 1)
             novo_estado = estado_atual[:]
             novo_estado[indice], novo_estado[novoIndice] = novo_estado[novoIndice], novo_estado[indice]
             heuristicaNo = heuristica(novo_estado, nodeEstadoObjetivo.estado)
-            filhos.append(Node(novo_estado, problema.custo + 1, "para esquerda", problema, heuristicaNo))
+            filhos.append(NodeI(novo_estado, problema.custo + 1, "para esquerda", problema, heuristicaNo))
         
         if y < raiz - 1:
             novoIndice = x * raiz + (y + 1)
             novo_estado = estado_atual[:]
             novo_estado[indice], novo_estado[novoIndice] = novo_estado[novoIndice], novo_estado[indice]
             heuristicaNo = heuristica(novo_estado, nodeEstadoObjetivo.estado)
-            filhos.append(Node(novo_estado, problema.custo + 1, "para direita", problema, heuristicaNo))
+            filhos.append(NodeI(novo_estado, problema.custo + 1, "para direita", problema, heuristicaNo))
 
         return filhos
 

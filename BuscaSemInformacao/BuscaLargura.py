@@ -9,10 +9,10 @@ class BuscaLargura:
         self.nodeEstadoInicial = nodeEstadoInicial
         self.nodeEstadoObjetivo = nodeEstadoObjetivo
         self.arvore = ArvoreBusca(nodeEstadoInicial, nodeEstadoObjetivo)
-        self.listaNosExplorados = []
         
     def buscaLargura(self):
         node = self.nodeEstadoInicial
+        listaNosExplorados = []
         
         fila_nos = Queue()
         fila_nos.put(node)
@@ -20,16 +20,17 @@ class BuscaLargura:
         while not fila_nos.empty():
             node = fila_nos.get()
 
-            if node.estado in self.listaNosExplorados:
+            if node.estado in listaNosExplorados:
                 continue
 
-            self.listaNosExplorados.append(node.estado)
+            listaNosExplorados.append(node.estado)
             
             if self.arvore.isNoObjetivo(node):
                 print("Ações:", sequenciaAcoes(node))
                 print("\033[35mEstado objetivo encontrado!\033[0m")
                 print('Caminho percorrido:', caminhoPercorrido(node))
                 print('Total de passos: ', len(caminhoPercorrido(node)))
+                print('Nós explorados: ', len(listaNosExplorados))
             
                 return sequenciaAcoes(node)
 

@@ -1,4 +1,4 @@
-class Node:
+class NodeI:
     def __init__(self, estado, custo, acao, pai, heuristica):
         self.estado = estado
         self.custo = custo
