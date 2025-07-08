@@ -27,8 +27,8 @@ class BuscaLargura:
             listaNosExplorados.append(node.estado)
             
             if self.arvore.isNoObjetivo(node):
-                print("Ações:", sequenciaAcoes(node))
                 print("\033[35mEstado objetivo encontrado!\033[0m")
+                print("Ações:", sequenciaAcoes(node))
                 print('Caminho percorrido:', caminhoPercorrido(node))
                 print('Total de passos: ', len(caminhoPercorrido(node)))
                 print('Nós expandidos: ', len(listaNosExplorados))
@@ -36,10 +36,10 @@ class BuscaLargura:
                 print('Profundidade da solução: ', len(caminhoPercorrido(node)) - 1)
             
                 return sequenciaAcoes(node)
-
             
             self.expande(node, filaNos)
             
+
     def expande(self, problema, filaNos):
         self.nosExpandidos += 1
         estadoAtual = problema.estado
@@ -48,7 +48,6 @@ class BuscaLargura:
         raiz = int(tamanhoLista ** 0.5)
         x = indice // raiz
         y = indice % raiz 
-
 
         if x > 0:
             novoIndice = (x - 1) * raiz + y
@@ -66,8 +65,7 @@ class BuscaLargura:
             novoIndice = x * raiz + (y - 1)
             novoEstado = estadoAtual[:]
             novoEstado[indice], novoEstado[novoIndice] = novoEstado[novoIndice], novoEstado[indice]
-            filaNos.put(Node(novoEstado, 0, "para a esquerda", problema, None))
-
+            filaNos.put(Node(novoEstado, 0, "para esquerda", problema, None))
         
         if y < raiz - 1:
             novoIndice = x * raiz + (y + 1)

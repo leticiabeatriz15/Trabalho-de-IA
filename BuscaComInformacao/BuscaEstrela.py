@@ -2,7 +2,6 @@ from BuscaComInformacao.NodeComInformacao import NodeI
 from Movimentacoes import sequenciaAcoes, caminhoPercorrido
 from ArvoreBusca import ArvoreBusca
 import heapq
-import time
 
 class BuscaEstrela:
     def __init__(self, NodeEstadoInicial, NodeEstadoObjetivo):
@@ -10,9 +9,9 @@ class BuscaEstrela:
         self.NodeEstadoObjetivo = NodeEstadoObjetivo
         self.arvore = ArvoreBusca(NodeEstadoInicial, NodeEstadoObjetivo)
         self.limiteProfundidade = 30
+        self.nosExpandidos = 0
 
     def buscaEstrela(self):
-        # nosExpandidos = 0
         fronteira = []
         listaNosExplorados = set()
         limiteAtingido = False
@@ -21,21 +20,18 @@ class BuscaEstrela:
         heapq.heappush(fronteira, (self.NodeEstadoInicial.custo + heuristicaInicial, self.NodeEstadoInicial))
         
         while fronteira:
-            
             prioridade, estadoAtual = heapq.heappop(fronteira)
             
             if tuple(estadoAtual.estado) in listaNosExplorados:
                 continue
-            
-            
-            
+    
             if self.arvore.isNoObjetivo(estadoAtual):
-                print('Estado objetivo encontrado!')
+                print('\033[35mEstado objetivo encontrado!\033[0m')
                 print('Ações: ', sequenciaAcoes(estadoAtual))
                 print('Caminho percorrido: ', caminhoPercorrido(estadoAtual))
                 print('Total de passos: ', len(caminhoPercorrido(estadoAtual)))
                 print('Nós expandidos', len(listaNosExplorados))
-                # print('Estados expandidos: ', nosExpandidos)
+                print('Estados expandidos: ', self.nosExpandidos)
                 print('Profundidade da solução: ', len(caminhoPercorrido(estadoAtual)) - 1)
                 return 
             
@@ -53,9 +49,10 @@ class BuscaEstrela:
                         
         if limiteAtingido:
             print('Limite de profundidade atingido!')
+            
+
     def expande(self, problema):
-        # global nosExpandidos 
-        # nosExpandidos += 1
+        self.nosExpandidos += 1
         estadoAtual = problema.estado
         indice = estadoAtual.index(0)
         tamanhoLista = len(estadoAtual)
@@ -97,7 +94,6 @@ class BuscaEstrela:
 
 
     def heuristica (self, estadoAtual, objetivo):
-        
         custoRestante = 0
         for i in range(len(estadoAtual)):
             if estadoAtual[i] != 0 and estadoAtual[i] != objetivo[i]:

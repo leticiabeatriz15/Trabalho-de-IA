@@ -22,8 +22,8 @@ class BuscaProfundidadeIterativa:
                 node = pilhaNos.pop()
 
                 if self.arvore.isNoObjetivo(node):
+                    print("\033[35mEstado objetivo encontrado!\033[0m")
                     print("Ações:", sequenciaAcoes(node))
-                    print("Estado objetivo encontrado!")
                     # print('Caminho percorrido: ', (caminhoPercorrido(node)))
                     print('Total de passos: ', len(caminhoPercorrido(node)))
                     print('Nós expandidos: ', len(listaNosExplorados))
@@ -33,11 +33,10 @@ class BuscaProfundidadeIterativa:
                             
                 if node.profundidade < self.limite:
                     self.expande(node, pilhaNos, listaNosExplorados)    
-                    
-                    
                 
         print('Solução não encontrada dentro do limite estabelecido!')          
         return None
+
 
     def expande(self, problema, pilhaNos, listaNosExplorados):
         self.nosExpandidos += 1
@@ -61,9 +60,8 @@ class BuscaProfundidadeIterativa:
             novoEstado = estadoAtual[:]
             novoEstado[indice], novoEstado[novoIndice] = novoEstado[novoIndice], novoEstado[indice]
             if tuple(novoEstado) not in listaNosExplorados:
-                pilhaNos.append(Node(novoEstado, 0, "para a esquerda", problema, problema.profundidade + 1))
+                pilhaNos.append(Node(novoEstado, 0, "para esquerda", problema, problema.profundidade + 1))
                 listaNosExplorados.add(tuple(novoEstado))
-
         
         if y < raiz - 1:
             novoIndice = x * raiz + (y + 1)

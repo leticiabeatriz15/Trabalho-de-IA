@@ -1,27 +1,26 @@
 from BuscaComInformacao.NodeComInformacao import NodeI
 from Movimentacoes import sequenciaAcoes, caminhoPercorrido
 from ArvoreBusca import ArvoreBusca
-import time 
 
 class BuscaGulosa:
     def __init__(self, nodeEstadoInicial, nodeEstadoObjetivo):
         self.nodeEstadoInicial = nodeEstadoInicial
         self.nodeEstadoObjetivo = nodeEstadoObjetivo
         self.arvore = ArvoreBusca(nodeEstadoInicial, nodeEstadoObjetivo)
+        self.nosExpandidos = 0
 
     def buscaGulosa(self):
         estadoAtual = self.nodeEstadoInicial
         listaNosExplorados = set()
         
-        
         while True:
             if self.arvore.isNoObjetivo(estadoAtual):
-                print('Estado objetivo encontrado!')
+                print('\033[35mEstado objetivo encontrado!\033[0m')
                 print('Ações: ', sequenciaAcoes(estadoAtual))
                 print('Caminho percorrido: ', caminhoPercorrido(estadoAtual))
                 print('Total de passos: ',len(caminhoPercorrido(estadoAtual)))
                 print('Nós expandidos: ', len(listaNosExplorados))
-                # print('Estados expandidos: ', nosExpandidos)
+                print('Estados expandidos: ', self.nosExpandidos)
                 print('Profundidade da solução: ', len(caminhoPercorrido(estadoAtual)) - 1)
                 return 
             
@@ -39,7 +38,6 @@ class BuscaGulosa:
                     melhor = filho
                     melhorValor = valor
             
-            
             if melhor is None:
                 print('Sem caminhos disponíveis')
                 return 
@@ -47,7 +45,7 @@ class BuscaGulosa:
             estadoAtual = melhor
 
     def expande(self, problema):
-        # nosExpandidos += 1
+        self.nosExpandidos += 1
         estadoAtual = problema.estado
         indice = estadoAtual.index(0)
         tamanhoLista = len(estadoAtual)
@@ -76,7 +74,7 @@ class BuscaGulosa:
             novoEstado = estadoAtual[:]
             novoEstado[indice], novoEstado[novoIndice] = novoEstado[novoIndice], novoEstado[indice]
             heuristicaNo = self.heuristicaPecas(novoEstado, self.nodeEstadoObjetivo.estado)
-            filhos.append(NodeI(novoEstado, 0, "para esquerda ", problema, heuristicaNo))
+            filhos.append(NodeI(novoEstado, 0, "para esquerda", problema, heuristicaNo))
         
         if y < raiz - 1:
             novoIndice = x * raiz + (y + 1)
@@ -87,7 +85,6 @@ class BuscaGulosa:
 
         return filhos
 
-    # nosExpandidos = 0
     def heuristicaPecas(self, estadoAtual, objetivo):
         pecasForaDoLugar = 0
         for i in range(len(estadoAtual)):
