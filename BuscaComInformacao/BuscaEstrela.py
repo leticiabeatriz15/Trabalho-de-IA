@@ -49,6 +49,7 @@ class BuscaEstrela:
                         
         if limiteAtingido:
             print('Limite de profundidade atingido!')
+            return 
             
 
     def expande(self, problema):
